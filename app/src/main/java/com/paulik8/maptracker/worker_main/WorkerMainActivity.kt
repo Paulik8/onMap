@@ -19,13 +19,15 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import com.paulik8.maptracker.services.Helper
 import java.util.*
+import kotlin.collections.HashMap
 
 
 class WorkerMainActivity: AppCompatActivity(), ValueEventListener {
 
-    private lateinit var db: FirebaseDatabase
+    private var db: FirebaseDatabase? = null
     private lateinit var myRef: DatabaseReference
     private lateinit var button: Button
+    private var userId: String? = null
     private var token: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,25 +35,36 @@ class WorkerMainActivity: AppCompatActivity(), ValueEventListener {
         setContentView(R.layout.worker_main_activity)
         button = findViewById(R.id.worker_main_button)
         button.text = "Push"
-        db = FirebaseDatabase.getInstance()
-        db.setPersistenceEnabled(true)
+        // err
+        if (db == null) {
+            db = FirebaseDatabase.getInstance()
+            db?.setPersistenceEnabled(true)
+        }
         createFirebaseToken()
     }
 
     override fun onStart() {
         super.onStart()
-        token = UUID.randomUUID().toString()
+        userId = UUID.randomUUID().toString()
         Log.i("version", android.os.Build.VERSION.SDK_INT.toString())
-        myRef = db.reference
-        myRef.child("orders").child("$token").setValue("aaa")
+        db?.let {
+            myRef = it.reference
+        }
+        // ?
         addListener()
         subscribeToFirebaseTopic()
     }
 
     private fun addListener() {
         myRef.addValueEventListener(this)
+
         button.setOnClickListener {
-            myRef.child("orders").child("user1").setValue("bbb")
+            Log.i("push", "push")
+            val updateData = HashMap<String, Any>()
+            token?.let {
+                updateData["deviceId"] = it
+            }
+            myRef.child("users").child("$userId").setValue(updateData)
         }
     }
 
@@ -68,13 +81,19 @@ class WorkerMainActivity: AppCompatActivity(), ValueEventListener {
                 }
 
                 // Get new Instance ID token
-                val token = task.result?.token
-
+                token = task.result?.token
+                addTokenToDb()
                 // Log and toast
                 val msg = getString(R.string.notification_token, token)
                 Log.d("token", msg)
                 Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
             })
+    }
+
+    private fun addTokenToDb() {
+        val data = HashMap<String, Any>()
+        data["deviceId"] = token + "1"
+        myRef.child("users").child("$userId").setValue(data)
     }
 
     private fun subscribeToFirebaseTopic() {
@@ -102,7 +121,7 @@ class WorkerMainActivity: AppCompatActivity(), ValueEventListener {
 
     @SuppressLint("LongLogTag")
     override fun onDataChange(data: DataSnapshot) {
-        val str = data.child("orders").value
+        val str = data.child("users").child("$userId").child("deviceId").value
         Log.i("WorkerMainActivity:onDataChange", str.toString())
     }
 
