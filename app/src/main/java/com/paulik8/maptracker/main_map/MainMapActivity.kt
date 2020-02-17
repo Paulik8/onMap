@@ -1,4 +1,4 @@
-package com.paulik8.maptracker
+package com.paulik8.maptracker.main_map
 
 import android.content.Intent
 import android.location.Location
@@ -15,6 +15,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
@@ -22,10 +23,12 @@ import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import com.google.firebase.iid.FirebaseInstanceId
+import com.paulik8.maptracker.R
 import java.util.*
 
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
+class MainMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
     GoogleMap.OnMyLocationClickListener, PlaceSelectionListener {
 
     companion object {
@@ -52,7 +55,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
             val client = Places.createClient(this)
         }
         val autoCompleteFragment = supportFragmentManager.findFragmentById(R.id.autocomplete_fragment)
-            as AutocompleteSupportFragment
+                as AutocompleteSupportFragment
         autoCompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME));
         autoCompleteFragment.setOnPlaceSelectedListener(this)
         createIntent()
@@ -104,6 +107,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
+
+//    private fun createFirebaseToken() {
+//        FirebaseInstanceId.getInstance().instanceId
+//            .addOnCompleteListener(OnCompleteListener { task ->
+//                if (!task.isSuccessful) {
+//                    Log.w("token", "getInstanceId failed", task.exception)
+//                    return@OnCompleteListener
+//                }
+//
+//                // Get new Instance ID token
+//                val token = task.result?.token
+//
+//                // Log and toast
+//                val msg = getString(R.string.notification_token, token)
+//                Log.d("token", msg)
+//                Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+//            })
+//    }
 
     //start OnMyLocationButtonClickListener
 

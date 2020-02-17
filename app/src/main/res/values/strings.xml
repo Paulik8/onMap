@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">onMap</string>
     <string name="title_activity_maps">onMap</string>
+    <string name="notification_channel_name">"NotificationChannelName"</string>
+    <string name="notification_channel_description">"NotificationChannelDescription"</string>
+    <string name="notification_token">"Token is %1$s</string>
 </resources>

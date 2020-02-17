@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "748085840176",
+    "firebase_url": "https://onmapf.firebaseio.com",
+    "project_id": "onmapf",
+    "storage_bucket": "onmapf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:748085840176:android:c82e54be2b8f98196ea0f5",
+        "android_client_info": {
+          "package_name": "com.paulik8.maptracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "748085840176-1utg9eo5pbfboj447dc5s7sdsbtqf47j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.paulik8.maptracker",
+            "certificate_hash": "03adbba996e27f80adca2f89195a76ae40c0dd82"
+          }
+        },
+        {
+          "client_id": "748085840176-auvbe83fgj4tsrusf4oibcbjsekg47h3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWsGxD6nIh-EIT1lWHuhEBK5dnOA7zbHo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "748085840176-auvbe83fgj4tsrusf4oibcbjsekg47h3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
