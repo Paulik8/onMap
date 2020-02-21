@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bottom_item_map"
+        android:icon="@drawable/icon_map_50"
+        android:title="@string/bottom_item_map"/>
+    <item
+        android:id="@+id/bottom_item_list"
+        android:icon="@drawable/icon_list_48"
+        android:title="@string/bottom_item_list"/>
+    <item
+        android:id="@+id/bottom_item_profile"
+        android:icon="@drawable/icon_profile_60"
+        android:title="@string/bottom_item_profile"/>
+</menu>

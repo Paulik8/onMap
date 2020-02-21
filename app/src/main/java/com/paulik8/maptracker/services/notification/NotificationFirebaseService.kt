@@ -7,16 +7,16 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.paulik8.maptracker.R
-import com.paulik8.maptracker.main_map.MainMapActivity
+import com.paulik8.maptracker.services.location.LocationService
 import com.paulik8.maptracker.worker_main.WorkerMainActivity
 
 class NotificationFirebaseService : FirebaseMessagingService() {
+
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
@@ -39,6 +39,9 @@ class NotificationFirebaseService : FirebaseMessagingService() {
             .setPriority(NotificationCompat.PRIORITY_MAX)
 
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
+
+        val locationService = LocationService(applicationContext).checkPermissions()
+
     }
 
     override fun onNewToken(newToken: String) {

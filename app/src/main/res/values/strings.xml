@@ -4,4 +4,8 @@
     <string name="notification_channel_name">"NotificationChannelName"</string>
     <string name="notification_channel_description">"NotificationChannelDescription"</string>
     <string name="notification_token">"Token is %1$s</string>
+
+    <string name="bottom_item_map">Карта</string>
+    <string name="bottom_item_list">Список</string>
+    <string name="bottom_item_profile">Профиль</string>
 </resources>

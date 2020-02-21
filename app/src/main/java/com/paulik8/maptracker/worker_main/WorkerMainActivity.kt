@@ -1,23 +1,15 @@
 package com.paulik8.maptracker.worker_main
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.widget.Button
 import com.google.firebase.database.*
 import com.paulik8.maptracker.R
-import android.content.ComponentName
-import android.app.ActivityManager
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.content.Context
 import android.widget.Toast
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
-import com.paulik8.maptracker.services.Helper
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -35,6 +27,7 @@ class WorkerMainActivity: AppCompatActivity(), ValueEventListener {
         setContentView(R.layout.worker_main_activity)
         button = findViewById(R.id.worker_main_button)
         button.text = "Push"
+        userId = UUID.randomUUID().toString()
         // err
         if (db == null) {
             db = FirebaseDatabase.getInstance()
@@ -45,7 +38,6 @@ class WorkerMainActivity: AppCompatActivity(), ValueEventListener {
 
     override fun onStart() {
         super.onStart()
-        userId = UUID.randomUUID().toString()
         Log.i("version", android.os.Build.VERSION.SDK_INT.toString())
         db?.let {
             myRef = it.reference
@@ -65,6 +57,7 @@ class WorkerMainActivity: AppCompatActivity(), ValueEventListener {
                 updateData["deviceId"] = it
             }
             myRef.child("users").child("$userId").setValue(updateData)
+//            LocationService(this).checkPermissions()
         }
     }
 
@@ -119,7 +112,6 @@ class WorkerMainActivity: AppCompatActivity(), ValueEventListener {
     override fun onCancelled(error: DatabaseError) {
     }
 
-    @SuppressLint("LongLogTag")
     override fun onDataChange(data: DataSnapshot) {
         val str = data.child("users").child("$userId").child("deviceId").value
         Log.i("WorkerMainActivity:onDataChange", str.toString())
