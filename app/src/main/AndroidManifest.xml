@@ -19,6 +19,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:name=".MainApplication"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
@@ -40,7 +41,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <activity
-            android:name=".main.MainActivity"
+            android:name=".main.MainWorkerActivity"
             android:label="@string/title_activity_maps">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,11 +57,13 @@
             android:name=".worker_main.WorkerMainActivity">
         </activity>
         <activity
+            android:name=".main.BaseMainActivity">
+        </activity>
+        <activity
             android:name=".new_request.NewRequestActivity">
         </activity>
         <service android:name=".services.location.LocationService"
-            android:label="Test"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
+            android:label="Test" />
         <service
             android:name=".services.notification.NotificationFirebaseService"
             android:exported="false">

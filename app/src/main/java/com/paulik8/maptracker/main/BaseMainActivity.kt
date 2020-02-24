@@ -1,6 +1,7 @@
 package com.paulik8.maptracker.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.ActionBar
@@ -9,41 +10,22 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.firebase.database.*
 import com.paulik8.maptracker.R
 import com.paulik8.maptracker.main.map.MainMapFragment
+import com.paulik8.maptracker.services.Util
+import com.paulik8.maptracker.services.location.LocationService
 
-class MainActivity : AppCompatActivity() {
+open class BaseMainActivity : AppCompatActivity(), ValueEventListener {
 
     private var toolbar: ActionBar? = null
     private lateinit var navigation: BottomNavigationView
-    private var currentItem: Int = 0
+    open var currentItem: Int = 0
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
-//    private lateinit var bottomSheetLayout: LinearLayout
+    private val db: FirebaseDatabase  = Util.getDatabase()
+    protected lateinit var ref: DatabaseReference
 
-
-    private val navigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when(item.itemId) {
-            R.id.bottom_item_map -> {
-                if (currentItem == R.id.bottom_item_map) {
-                    return@OnNavigationItemSelectedListener true
-                }
-                currentItem = R.id.bottom_item_map
-                checkFragmentCreated(MainMapFragment.TAG)?.let { fragment ->
-                    changeFragment(fragment, MainMapFragment.TAG)
-                    return@OnNavigationItemSelectedListener true
-                }
-                changeFragment(MainMapFragment.newInstance(), MainMapFragment.TAG)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.bottom_item_list -> {
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.bottom_item_profile -> {
-                return@OnNavigationItemSelectedListener true
-            }
-        }
-        false
-    }
+    open lateinit var navigationItemSelectedListener: BottomNavigationView.OnNavigationItemSelectedListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +40,8 @@ class MainActivity : AppCompatActivity() {
 
 //        bottomSheetBehavior.peekHeight = navigation.height + 90
         initialize()
+        ref = db.reference
+//        ref.addValueEventListener(this)
     }
 
     private fun initialize() {
@@ -88,14 +72,28 @@ class MainActivity : AppCompatActivity() {
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
-    private fun changeFragment(fragment: Fragment, tag: String) {
+    protected fun changeFragment(fragment: Fragment, tag: String) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.activity_container_main, fragment, tag)
             .addToBackStack(null)
             .commit()
     }
 
-    private fun checkFragmentCreated(tag: String): Fragment? {
+    protected fun checkFragmentCreated(tag: String): Fragment? {
         return supportFragmentManager.findFragmentByTag(tag)
     }
+
+    // start ValueEventListener
+
+    override fun onCancelled(error: DatabaseError) {
+        Log.e("LocationService", error.toString())
+    }
+
+    override fun onDataChange(snapshot: DataSnapshot) {
+        Log.i("snapshot", snapshot.value.toString())
+    }
+
+    // end
+
+
 }

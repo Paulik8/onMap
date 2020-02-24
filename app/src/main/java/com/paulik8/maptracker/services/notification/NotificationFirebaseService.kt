@@ -40,7 +40,7 @@ class NotificationFirebaseService : FirebaseMessagingService() {
 
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
 
-        val locationService = LocationService(applicationContext).checkPermissions()
+//        val locationService = LocationService(applicationContext).checkPermissions()
 
     }
 
