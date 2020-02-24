@@ -51,10 +51,12 @@
         <activity
             android:name=".main.MainMapActivity"
             android:label="@string/title_activity_maps">
-
         </activity>
         <activity
             android:name=".worker_main.WorkerMainActivity">
+        </activity>
+        <activity
+            android:name=".new_request.NewRequestActivity">
         </activity>
         <service android:name=".services.location.LocationService"
             android:label="Test"
